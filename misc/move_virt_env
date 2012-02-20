@@ -1,0 +1,32 @@
+#!/usr/bin/python
+
+# Depcrecated script used to rebase a Pylons virtual environment by correcting
+# its hardcoded paths.
+
+import os, re
+
+from_pattern = "/.*MOVE_DIR_STUB"
+to_path = "/usr/share/teambox/pylons_env"
+
+def convert_file(path):
+    input = open(path, "rb")
+    data = ""
+    
+    for line in input.readlines():
+        data += re.sub(from_pattern, to_path, line)
+    
+    input.close()
+    try:
+        output = open(path, "wb")
+        output.write(data)
+        output.close()
+    except: pass
+
+def main():
+    for root, dirs, files in os.walk('.'):
+        for file in files:
+            file_path = os.path.join(root, file)
+            convert_file(file_path)
+
+main()
+

@@ -1,0 +1,51 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+# export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+
+clean:
+	dh_testdir
+	dh_testroot
+	dh_clean
+
+
+build:
+	dh_testdir
+
+
+install: build
+	dh_testdir
+	dh_testroot
+        
+	# Install the packages in the path specified.
+	mkdir -p debian/kpylons/usr/share/teambox/pylons_env
+	./install.py debian/kpylons/usr/share/teambox/pylons_env
+	
+        # Remove the precompiled modules with invalid hardcoded paths.
+        # Setuptools is recompiled for Shabti.
+	cd debian/kpylons/usr/share/teambox/pylons_env && find -name "*.pyc" | xargs rm
+
+
+binary-arch:
+binary-indep: install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installdocs
+	dh_pysupport
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-arch binary-indep
+
+
+.PHONY: build clean binary-indep binary-arch binary install
+

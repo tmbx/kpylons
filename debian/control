@@ -1,0 +1,14 @@
+Source: kpylons
+Section: teambox-internal
+Priority: optional
+Maintainer: 
+Build-Depends: debhelper (>= 5), python
+Build-Depends-Indep: python-support (>= 0.4)
+Standards-Version: 3.7.2
+
+Package: kpylons
+Architecture: any
+Depends: kpython, python-psycopg2
+Description: Teambox Pylons package
+ This package contains the packages associated to the Pylons framework.
+
